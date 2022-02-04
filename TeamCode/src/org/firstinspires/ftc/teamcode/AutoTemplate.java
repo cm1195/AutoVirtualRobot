@@ -1,12 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 public interface AutoTemplate {
-    void drive(int leftPos, int rightPos, int power);
+    void drive(int backLeftPos, int backRightPos, int frontLeftPos, int frontRightPos, double power);
     void turnToCarousel();
     void placeFreight();
     void goToWarehouse();

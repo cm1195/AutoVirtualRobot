@@ -1,20 +1,25 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+
 @Autonomous(name="AutoBlueTop", group="FreightBot")
 public class AutoBlueTop extends LinearOpMode implements AutoTemplate {
-    DcMotor leftMotor, rightMotor;
+    DcMotor backLeft, backRight, frontLeft, frontRight;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        leftMotor = hardwareMap.dcMotor.get("back_left_motor");
-        rightMotor = hardwareMap.dcMotor.get("back_right_motor");
+        backLeft = hardwareMap.dcMotor.get("back_left_motor");
+        backRight = hardwareMap.dcMotor.get("back_right_motor");
+        frontLeft = hardwareMap.dcMotor.get("front_left_motor");
+        frontRight = hardwareMap.dcMotor.get("front_right_motor");
 
-        leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
@@ -24,31 +29,55 @@ public class AutoBlueTop extends LinearOpMode implements AutoTemplate {
     }
 
     @Override
-    public void drive(int leftPos, int rightPos, int power) {
-        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    public void drive(int backLeftPos, int backRightPos, int frontLeftPos, int frontRightPos, double power) {
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftMotor.setTargetPosition(leftPos);
-        rightMotor.setTargetPosition(rightPos);
+        backLeft.setTargetPosition(backLeftPos);
+        backRight.setTargetPosition(backRightPos);
+        frontLeft.setTargetPosition(frontLeftPos);
+        frontRight.setTargetPosition(frontRightPos);
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftMotor.setPower(power);
-        rightMotor.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
 
-        while (leftMotor.isBusy() && rightMotor.isBusy()) {
+        while (backLeft.isBusy() && backRight.isBusy() && opModeIsActive()) {
             idle();
         }
 
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
     }
 
     @Override
     public void turnToCarousel() {
-        drive(2500, -2125, 1);
-        drive(4500, 4500, 1);
+        // Drive away fom the back wall
+        drive(500, 500, 500, 500, 1);
+        // Turn right
+        drive(2500, -2000, 2500, -2000, 1);
+        // Drive to the same row as the carousel
+        drive(1600, 1600, 1600, 1600, 1);
+        // Turn to carousel
+        drive(-2000, 2500, -2000, 2500, 1);
+        // Drive to carousel
+        drive(1000, 1000, 1000, 1000, 1);
     }
 
     @Override
@@ -58,8 +87,15 @@ public class AutoBlueTop extends LinearOpMode implements AutoTemplate {
 
     @Override
     public void goToWarehouse() {
-        drive(-4500, -4500, 1);
-        drive(-6000, 10000, 1);
-        drive(7500, 7500, 1);
+        // Move back from carousel
+        drive(-1000, -1000, -1000, -1000, 1);
+        // Turn to warehouse
+        drive(-2000, 2500, -2000, 2500, 1);
+        // Drive to warehouse
+        drive(4000, 4000, 4000, 4000, 1);
+        // Turn to alliance carousel
+        drive(2000, -2500, 2000, -2500, 1);
+        // Drive near alliance carousel
+        drive(1500, 1500, 1500, 1500, 1);
     }
 }
