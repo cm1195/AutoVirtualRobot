@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-
+@Disabled()
 @Autonomous(name="AutoBlueTop", group="FreightBot")
 public class AutoBlueTop extends LinearOpMode implements AutoTemplate {
     DcMotor backLeft, backRight, frontLeft, frontRight;
